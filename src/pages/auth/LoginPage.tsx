@@ -1,5 +1,6 @@
 import { Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { setIsLoggedIn } from "../../redux/Util";
 
 import {
   Button,
@@ -14,7 +15,9 @@ import {
 
 const LoginPage = () => {
   const navigate = useNavigate();
+
   const handleSubmit = () => {
+    setIsLoggedIn();
     navigate("/todo/");
   };
 

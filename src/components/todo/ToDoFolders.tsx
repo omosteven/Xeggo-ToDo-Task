@@ -1,10 +1,12 @@
 import { ScheduleRounded } from "@mui/icons-material";
 import { Grid } from "@mui/material";
 import { Card, Text, TitleText } from "../../styles/UtilStyles";
-import { FoldersProps } from "../../types/ToDoTypes";
+import { IFolders } from "../../types/type.d";
 
-const ToDoFolders = (props: FoldersProps) => {
+const ToDoFolders = (props: IFolders) => {
   const { folders } = props;
+
+  // --- These data here are just dummies, please ---
   return (
     <>
       <Card width="100%" height="100vh">

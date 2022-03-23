@@ -11,12 +11,13 @@ import {
   Text,
   TitleText,
 } from "../../styles/UtilStyles";
+import { IToDoPage } from "../../types/type.d";
 
-const todos = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
+// const todos = [{}, {}, {}, {}, {}, {}, {}, {}, {}];
 
 const folders = [{}, {}, {}, {}];
 
-const ToDoPage = () => {
+const ToDoPage = (props: IToDoPage) => {
   const [open, setOpen] = useState(false);
   const [drawOpen, setDrawOpen] = useState(false);
 
@@ -27,6 +28,8 @@ const ToDoPage = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const { createNewToDo, toDoList } = props;
 
   return (
     <>
@@ -77,19 +80,35 @@ const ToDoPage = () => {
                 </Card>
               </Card>
               <Card width="100%" height="65vh">
-                <Card
-                  background="transparent"
-                  left="1em"
-                  right="1em"
-                  //   bottom="1em"
-                  top="1em"
-                  height="60vh"
-                  overflowY="scroll"
-                >
-                  {todos.map((item, pos) => (
-                    <ToDoItemCard key={pos} {...item} />
-                  ))}
-                </Card>
+                {toDoList.length ? (
+                  <Card
+                    background="transparent"
+                    left="1em"
+                    right="1em"
+                    //   bottom="1em"
+                    top="1em"
+                    height="60vh"
+                    overflowY="scroll"
+                  >
+                    {toDoList.map((item, pos) => (
+                      <ToDoItemCard key={pos} {...item} pos={pos} />
+                    ))}
+                  </Card>
+                ) : (
+                  <Card
+                    background="transparent"
+                    left="1em"
+                    right="1em"
+                    //   bottom="1em"
+                    top="1em"
+                    height="60vh"
+                    overflowY="scroll"
+                  >
+                    <TitleText top="2em" size="1.1em">
+                      You do not have anything yet!
+                    </TitleText>
+                  </Card>
+                )}
 
                 <Card height="fit-content">
                   <ScreenControl lg md>
@@ -113,7 +132,11 @@ const ToDoPage = () => {
         </MainSection>
       </Main>
 
-      <ToDoAddNew open={open} handleClose={handleClose} />
+      <ToDoAddNew
+        open={open}
+        handleClose={handleClose}
+        createNewToDo={createNewToDo}
+      />
 
       <ScreenControl xs sm>
         <Drawer
