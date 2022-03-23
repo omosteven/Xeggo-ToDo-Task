@@ -1,4 +1,5 @@
 import { Grid } from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { setIsLoggedIn } from "../../redux/Util";
 
@@ -16,9 +17,28 @@ import {
 const LoginPage = () => {
   const navigate = useNavigate();
 
+  const [loginData, setLoginData] = useState({
+    email: null,
+    password: null,
+  });
+
+  const [isError, setIsError] = useState(false);
+
   const handleSubmit = () => {
-    setIsLoggedIn();
-    navigate("/todo/");
+    if (loginData.email && loginData.password) {
+      setIsError(false);
+      setIsLoggedIn();
+      navigate("/todo/");
+    } else {
+      setIsError(true);
+    }
+  };
+
+  const updateLoginData = (key: string, value: string) => {
+    setLoginData({
+      ...loginData,
+      [key]: value,
+    });
   };
 
   return (
@@ -63,6 +83,7 @@ const LoginPage = () => {
                     border="#EEEEEE"
                     type="email"
                     placeholder="Email Address"
+                    onChange={(e) => updateLoginData("email", e.target.value)}
                   />
                 </Grid>
                 <Grid item lg={12} md={12} sm={12} xs={12}>
@@ -71,9 +92,17 @@ const LoginPage = () => {
                     type="password"
                     placeholder="Password"
                     height="60px"
+                    onChange={(e) =>
+                      updateLoginData("password", e.target.value)
+                    }
                   />
                 </Grid>
                 <Grid item lg={12} md={12} sm={12} xs={12}>
+                  {isError && (
+                    <Text color="rgba(200,0,0,0.9)" size="14px" bottom="1em">
+                      Some fields are missing.
+                    </Text>
+                  )}
                   <Button
                     background="#0d6efd"
                     radius="5px"
